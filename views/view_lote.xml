@@ -22,17 +22,20 @@
       <field name="arch" type="xml">
         <form>
           <header>
-            <button name="cerrar" string="Cerrar" type="object" class="oe_highlight" attrs="{'invisible':[('estado', 'in', ['cerrado'])]}"/>
-            <button name="enviar" string="Enviado" type="object" class="oe_highlight" attrs="{'invisible':[('estado', 'in', ['enviado', 'abierto'])]}"/>
-
+            <button name="cerrar" string="Cerrar" type="object" class="oe_highlight" attrs="{'invisible':[('estado', 'in', ['cerrado', 'enviado'])]}" confirm="¿Está seguro de continuar?"/>
+            <button name="enviar" string="Enviar" type="object" class="oe_highlight" attrs="{'invisible':[('estado', 'in', ['enviado', 'abierto'])]}" confirm="¿Está seguro de continuar?"/>
             <field name="estado" widget="statusbar"/>
           </header>
           <sheet>
             <group>
-              <field name="create_date" readonly="1"/>
-              <field name="fecha_cierre"/>
-              <field name="comunidades" widget="many2many_tags" options="{'no_create_edit': True}"/>
-              <field name="observaciones"/>
+              <group>
+                <field name="create_date" readonly="1"/>
+                <field name="fecha_cierre" attrs="{'readonly':[('estado', 'in', ['cerrado', 'enviado'])]}"/>
+                <field name="fecha_envio" attrs="{'readonly':[('estado', 'in', ['abierto', 'enviado'])]}"/>
+
+                <field name="comunidades" widget="many2many_tags" options="{'no_create_edit': True}" attrs="{'readonly':[('estado', 'in', ['cerrado', 'enviado'])]}"/>
+                <field name="observaciones"/>
+              </group>
             </group>
           </sheet>
         </form>

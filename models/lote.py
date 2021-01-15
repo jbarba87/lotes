@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from datetime import datetime
 
 class lote(models.Model):
   _name = 'lote.lote'
@@ -17,13 +18,19 @@ class lote(models.Model):
 
   fecha_envio = fields.Date(string="Fecha de envio")
 
-  comunidades = fields.Many2many('coop2.asociacion', string="Comunidades")
+  comunidades = fields.Many2many('coop.asociacion', string="Comunidades")
 
   observaciones = fields.Text(string="Observaciones")
 
   def cerrar(self):
+    # Si fecha de cierre esta vacio colocar fecha actual
+    if self.fecha_cierre is not set:
+      self.fecha_cierre = datetime.today().strftime('%Y-%m-%d')
     self.estado = "cerrado"
     print("Cerrado")
   def enviar(self):
+    # Si fecha de cierre esta vacio colocar fecha actual
+    if self.fecha_envio is not set:
+      self.fecha_envio = datetime.today().strftime('%Y-%m-%d')
     self.estado = "enviado"
     print("Enviado")
